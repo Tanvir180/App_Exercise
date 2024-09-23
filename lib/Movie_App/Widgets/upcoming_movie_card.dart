@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:state_management/Movie_App/common/utils.dart';
 import 'package:state_management/Movie_App/models/upcommingmoviemodel.dart';
+import 'package:state_management/Movie_App/screens/movie_details_screen.dart';
 
 class UpcomingMovieCard extends StatelessWidget {
   final List<Results> upComingMovies; // List of now playing movies
@@ -44,12 +45,19 @@ class UpcomingMovieCard extends StatelessWidget {
                 if (index < upComingMovies.length) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        '$imageUrl${upComingMovies[index].posterPath}',
-                        fit: BoxFit.cover,
-                        width: 120,
+                    child: InkWell(
+                      onTap: (){
+                        // print("pressed");
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MovieDetailScreen(movieId: upComingMovies[index].id!)
+                          ,));
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.network(
+                          '$imageUrl${upComingMovies[index].posterPath}',
+                          fit: BoxFit.cover,
+                          width: 120,
+                        ),
                       ),
                     ),
                   );

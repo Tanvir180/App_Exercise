@@ -12,9 +12,9 @@ class DrawerScreen extends StatefulWidget {
 class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Drawer(
 
-          body:  ListView(
+            child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               // User Account Header with profile details
@@ -60,10 +60,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ListTile(
                 leading: Icon(Icons.search_off_outlined),
                 title: Text("Search"),
-                onTap: () {
-                  MaterialPageRoute(
-                    builder: (context) => const SearchScreen(),
-                  );
+                onTap: (){
+                  // print("pressed");
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchScreen()
+                    ,));
                 },
               ),
               ListTile(

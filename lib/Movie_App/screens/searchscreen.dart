@@ -3,11 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:state_management/Movie_App/common/utils.dart';
 import 'package:state_management/Movie_App/models/search_model.dart';
+import 'package:state_management/Movie_App/screens/movie_details_screen.dart';
 import 'package:state_management/Movie_App/services/api_services.dart';
-// import 'package:netflix_clone/common/utils.dart';
-// import 'package:netflix_clone/models/movie_model.dart';
-// import 'package:netflix_clone/models/search_model.dart';
-// import 'package:netflix_clone/services/api_services.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -67,9 +64,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
               ),
             ),
-
-
-
             searchedMovie == null
                 ? const SizedBox.shrink()
                 : Expanded(
@@ -102,19 +96,31 @@ class _SearchScreenState extends State<SearchScreen> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisSpacing: 5,
+                        mainAxisSpacing: 1,
+                        // mainAxisSpacing: 1,
                         crossAxisSpacing: 10,
                         childAspectRatio: 1.5 / 2,
                       ),
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            searchedMovie!.results?[index].backdropPath == null
-                                ? Image.asset("assets/splashScreen.png")
-                                : CachedNetworkImage(
-                                    imageUrl:
-                                        '$imageUrl${searchedMovie!.results?[index].backdropPath}',
-                                  ),
+                            InkWell(
+                              onTap: (){
+                                // print("pressed");
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> MovieDetailScreen(movieId: searchedMovie!.results![index].id!)
+                                  ,));
+                              },
+                              child: Container(
+                                child:
+                                    searchedMovie!.results?[index].backdropPath ==
+                                            null
+                                        ? Image.asset("assets/splashScreen.png")
+                                        : CachedNetworkImage(
+                                            imageUrl:
+                                                '$imageUrl${searchedMovie!.results?[index].backdropPath}',
+                                          ),
+                              ),
+                            ),
                             Text(searchedMovie!.results![index].title.toString()),
                           ],
                         );

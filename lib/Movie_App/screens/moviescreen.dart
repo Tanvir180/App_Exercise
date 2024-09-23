@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:state_management/Movie_App/Widgets/custom_carosel.dart';
 import 'package:state_management/Movie_App/Widgets/now_playing_movie_card.dart';
 // import 'package:state_management/Movie_App/Widgets/now_playing_movie_card.dart';
 // import 'package:state_management/Movie_App/Widgets/upcoming_movie_card.dart';
 import 'package:state_management/Movie_App/Widgets/upcoming_movie_card.dart';
 
 import 'package:state_management/Movie_App/models/now_paying_movie_model.dart' as NowPlaying;
+import 'package:state_management/Movie_App/models/tv_series_model.dart';
 import 'package:state_management/Movie_App/models/upcommingmoviemodel.dart' as Upcoming;
 
 
 import 'package:state_management/Movie_App/screens/drawer.dart';
+import 'package:state_management/Movie_App/screens/movie_details_screen.dart';
 import 'package:state_management/Movie_App/services/api_services.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -28,6 +32,11 @@ class _MovieScreenState extends State<MovieScreen> {
   bool isLoadingNowPlaying = false;
   bool isUpComingPlaying = false;
 
+  late Future<TvSeriesModel> topRatedSeries;  //
+
+
+
+
   final ScrollController _nowPlayingScrollController = ScrollController();
   final ScrollController _upComingScrollController = ScrollController();
 
@@ -36,6 +45,10 @@ class _MovieScreenState extends State<MovieScreen> {
     super.initState();
     _fetchNowPlayingMovies();
     _fetchUpComingMovies();
+
+    topRatedSeries = apiServices.getTopRatedSeries(); //
+
+
 
     _nowPlayingScrollController.addListener(() {
       if (_nowPlayingScrollController.position.pixels ==
@@ -94,6 +107,18 @@ class _MovieScreenState extends State<MovieScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+
+            FutureBuilder<TvSeriesModel>(
+              future: topRatedSeries,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CustomCarouselSlider(data: snapshot.data!);
+                }
+                return const SizedBox();
+              },
+            ),
+            
+            
             NowPlayingMovieCard(
               context,
               nowPlayingMovies: nowPlayingMovies,

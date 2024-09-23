@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:state_management/Movie_App/common/utils.dart';
+import 'package:state_management/Movie_App/models/movie_detail_model.dart';
 import 'package:state_management/Movie_App/models/now_paying_movie_model.dart';
 import 'package:state_management/Movie_App/models/search_model.dart';
+import 'package:state_management/Movie_App/models/tv_series_model.dart';
 import 'package:state_management/Movie_App/models/upcommingmoviemodel.dart';
 
 const baseUrl = 'https://api.themoviedb.org/3/';
@@ -37,6 +39,23 @@ class ApiServices {
     throw Exception('Failed to load now playing movies');
   }
 
+
+
+  // Fetch now playing movies with pagination (10 per page)
+  Future<TvSeriesModel> getTopRatedSeries() async {
+    endPoint = 'movie/top_rated';
+    final url = '$baseUrl$endPoint$key';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return TvSeriesModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception('Failed to load Top Rated Series');
+  }
+
+
+
+
   // Example method to fetch other types of data like popular movies (with pagination)
   Future<void> getPopularMovies({int page = 1}) async {
     endPoint = 'movie/popular';
@@ -49,6 +68,8 @@ class ApiServices {
       throw Exception('Failed to load popular movies');
     }
   }
+
+
 
   Future<SearchModel> getSearchedMovie(String searchText) async {
     endPoint = 'search/movie?query=$searchText';
@@ -67,6 +88,17 @@ class ApiServices {
     throw Exception('failed to load  search movie ');
   }
 
+  Future<MovieDetailModel> getMovieDetail(int movieId) async {
+    endPoint = 'movie/$movieId';
+    final url = '$baseUrl$endPoint$key';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      log('success');
+      return MovieDetailModel.fromJson(jsonDecode(response.body));
+    }
+    throw Exception('failed to load  movie details');
+  }
 
 
 }
