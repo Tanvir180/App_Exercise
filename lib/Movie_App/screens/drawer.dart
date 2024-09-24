@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:state_management/Movie_App/screens/bookmark.dart';
 import 'package:state_management/Movie_App/screens/moviescreen.dart';
 import 'package:state_management/Movie_App/screens/searchscreen.dart';
 
@@ -51,9 +52,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.settings),
-                title: Text("Settings"),
+                title: Text("BookMark"),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Bookmark()
+                    ,));
                   // Navigate to Settings
                 },
               ),

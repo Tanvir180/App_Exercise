@@ -1,8 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
+import 'package:state_management/Movie_App/Data/db_handler.dart';
 import 'package:state_management/Movie_App/common/utils.dart';
+import 'package:state_management/Movie_App/models/bookmarkModel.dart';
 import 'package:state_management/Movie_App/models/movie_detail_model.dart';
+import 'package:state_management/Movie_App/models/now_paying_movie_model.dart';
 import 'package:state_management/Movie_App/services/api_services.dart';
+import 'package:state_management/SqfLite/model_class.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final int movieId;
@@ -34,7 +38,7 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(widget.movieId);
+    // print(widget.movieId);
     return Scaffold(
       // appBar: AppBar(
       //   centerTitle: true,
@@ -93,19 +97,37 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                movie.title!,
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
+                              Expanded(
+                                child: Text(
+                                  movie.title!,
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              IconButton(onPressed: (){}, icon: Icon(Icons.bookmark_add_sharp),
+                              IconButton(
+                                onPressed: () async {
+                                await DbHandler().insertData(
+                                  movie.id, movie.title, movie.imdbId, movie.posterPath, movie.runtime);
+
+                                  // BookmarkModel(
+                                  //   id: movie.id,
+                                  //   title: movie.title,
+                                  //     runtime: movie.runtime,
+                                  //     posterPath: movie.posterPath,
+                                  //     imdbId: movie.imdbId
+                                  //
+                                  // ) ,
+
+                                print(MovieDetailModel);
+                              },
+                                icon: const Icon(Icons.bookmark_add_sharp),
                                 iconSize: 40.0, ),
                             ],
                           ),
         
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Row(
 
                             children: [
@@ -120,19 +142,19 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
 
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           // IMDB Rating and Icon
                            Row(
                             children: [
-                              Icon(Icons.star, color: Colors.amber),
-                              SizedBox(width: 4),
+                              const Icon(Icons.star, color: Colors.amber),
+                              const SizedBox(width: 4),
                               Text(
                                   '${movie.imdbId!} IMDB',
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
         
                           // Movie Info (Length, Language, Rating)
                           Row(
@@ -146,24 +168,24 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
                                   const Text( 'Length' ,
                                       style: TextStyle(fontSize: 16)),
                                   Text( '${movie.runtime!} Min' ,
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                 ],
                               ),
         
                               Column(
                                 children: [
-                                  Text('Language',
+                                  const Text('Language',
                                       style: TextStyle(fontSize: 16)),
                                   Text('${movie.originalLanguage}',
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                 ],
                               ),
                               Column(
                                 children: [
-                                  Text('Rating',
+                                  const Text('Rating',
                                       style: TextStyle(fontSize: 16)),
                                   Text('${movie.popularity}',
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                 ],
                               ),
                             ],
@@ -185,7 +207,7 @@ class MovieDetailScreenState extends State<MovieDetailScreen> {
                               '${movie.overview}',
                               maxLines: 6,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 16, color: Colors.black, fontWeight:  FontWeight.w100),
+                              style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight:  FontWeight.w100),
         
 
                             ),
