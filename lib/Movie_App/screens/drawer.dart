@@ -33,8 +33,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
               // Drawer buttons
               ListTile(
-                leading: Icon(Icons.home),
-                title: Text("Home"),
+                leading: const Icon(Icons.home),
+                title: const Text("Home"),
                 onTap: () {
                   MaterialPageRoute(
                     builder: (context) => const MovieScreen(),
@@ -43,25 +43,25 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.person),
-                title: Text("Profile"),
+                leading: const Icon(Icons.person),
+                title: const Text("Profile"),
                 onTap: () {
                   Navigator.pop(context);
                   // Navigate to Profile
                 },
               ),
               ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("BookMark"),
+                leading: const Icon(Icons.settings),
+                title: const Text("BookMark"),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Bookmark()
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const BookMarkList()
                     ,));
                   // Navigate to Settings
                 },
               ),
               ListTile(
-                leading: Icon(Icons.search_off_outlined),
-                title: Text("Search"),
+                leading: const Icon(Icons.search_off_outlined),
+                title: const Text("Search"),
                 onTap: (){
                   // print("pressed");
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchScreen()
@@ -69,8 +69,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.logout),
-                title: Text("Logout"),
+                leading: const Icon(Icons.logout),
+                title: const Text("Logout"),
                 onTap: () {
                   // Handle logout
                   Navigator.pop(context);

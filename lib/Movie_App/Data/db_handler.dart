@@ -48,20 +48,33 @@ class DbHandler {
     Database? db = await database;
    return db!.insert('BookMarkTable', map);
   }
-  
- Future<String> readData() async{
+
+
+  Future<List<Map<String, dynamic>>> getData() async {
     Database? db = await database;
-    final list = await db!.query('BookMarkTable');
-    print(list);
-    return list.map.toString();
+    return await db!.query('BookMarkTable');
   }
+
+
+  // Check if a movie is already bookmarked
+
+
+
+
+
+  // Future<String> readData() async{
+  //   Database? db = await database;
+  //   final list = await db!.query('BookMarkTable');
+  //   print(list);
+  //   return list.map.toString();
+  // }
 
  Future<int> deleteData( int id) async{
 
 
       Database? db = await database;
 
-      return await db!.delete('DatabaseTable',
+      return await db!.delete('BookMarkTable',
           where: 'id = ?',
           whereArgs: [id]
       );
