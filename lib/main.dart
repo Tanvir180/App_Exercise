@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:state_management/API/Get_Api/MultipleDataAPI/screenm.dart';
 import 'package:state_management/API/Header_Passing/header_screen.dart';
 import 'package:state_management/Movie_App/screens/splash_screen.dart';
 import 'package:state_management/Shared_Preferences/save_data.dart';
 import 'package:state_management/SqfLite/home_page.dart';
 
 import 'package:state_management/State_Management/counter_controller.dart';
+import 'package:state_management/mediaQuery.dart';
 
 void main() {
   runApp(MycounterAPP());
@@ -21,7 +23,7 @@ class MycounterAPP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'MovieDB',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
@@ -42,7 +44,7 @@ class MycounterAPP extends StatelessWidget {
             .copyWith(surface: Colors.white),
       ),
 
-      home: const SplashScreen(),
+      home: const Mediaquery(),
 
 
     );

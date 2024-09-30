@@ -4,6 +4,7 @@ import 'package:state_management/Movie_App/common/utils.dart';
 import 'package:state_management/Movie_App/models/bookmarkModel.dart';
 import 'package:state_management/Movie_App/models/movie_detail_model.dart';
 import 'package:state_management/Movie_App/models/now_paying_movie_model.dart';
+import 'package:state_management/Movie_App/screens/bookmark_controller.dart';
 import 'package:state_management/Movie_App/services/api_services.dart';
 import 'package:state_management/SqfLite/model_class.dart';
 

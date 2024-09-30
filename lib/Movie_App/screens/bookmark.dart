@@ -1,58 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:state_management/Movie_App/Data/db_handler.dart';
+import 'package:get/get.dart';
 import 'package:state_management/Movie_App/common/utils.dart';
-import 'package:state_management/Movie_App/screens/movie_details_screen.dart'; // Make sure this import path is correct
+import 'package:state_management/Movie_App/screens/movie_details_screen.dart'; // Ensure the import path is correct
+import 'bookmark_controller.dart'; // Import the controller
 
-class BookMarkList extends StatefulWidget {
-  const BookMarkList({super.key});
+class BookMarkList extends StatelessWidget {
+  // Initialize the controller using GetX dependency injection
+  final BookmarkController bookmarkController = Get.put(BookmarkController());
 
-  @override
-  _BookMarkListState createState() => _BookMarkListState();
-}
-
-class _BookMarkListState extends State<BookMarkList> {
-  final DbHandler _dbHandler = DbHandler(); // Instantiate DbHandler
-
-  // Check if a movie is already bookmarked
-  Future<bool> isBookmarked(int id) async {
-    final List<Map<String, dynamic>> movies = await _dbHandler.getData(); // Get data from the database
-    return movies.any((movie) => movie['id'] == id); // Check if any movie has the same ID
-  }
-
-  // Fetch data from the database using DbHandler
-  Future<List<Map<String, dynamic>>> fetchData() async {
-    return await _dbHandler.getData(); // Call the method from DbHandler to get data
-  }
+  BookMarkList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        primary: true,
         title: const Text('Bookmarks'),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Show loading spinner while waiting for data
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}')); // Show error message if something went wrong
-          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+
+
+
+      // Here initstate is used for mainly render the data form database everytime
+      body: GetBuilder<BookmarkController>(
+        initState: (state) {
+          bookmarkController.fetchData() ;
+          },
+        builder: (context) {
+          return Obx(() {
+            // Reactive UI using Obx to watch changes in the bookmarks list
+            if (bookmarkController.bookmarks.isEmpty) {
+              return const Center(child: Text('BookMark Movies'));
+            }
+
             return ListView.builder(
-              itemCount: snapshot.data!.length,
+              itemCount: bookmarkController.bookmarks.length,
               itemBuilder: (context, index) {
-                var item = snapshot.data![index];
+                var item = bookmarkController.bookmarks[index];
 
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MovieDetailScreen(movieId: item['id']),
-                      ),
-                    );
+                    Get.to(() => MovieDetailScreen(movieId: item['id']));
                   },
                   child: Card(
                     color: Colors.white70,
@@ -116,9 +103,7 @@ class _BookMarkListState extends State<BookMarkList> {
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () async {
-
-                              await _dbHandler.deleteData(item['id']);
-                              setState(() {}); // Refresh the list after deletion
+                              await bookmarkController.deleteBookmark(item['id']);
                             },
                           ),
                         ],
@@ -128,10 +113,8 @@ class _BookMarkListState extends State<BookMarkList> {
                 );
               },
             );
-          } else {
-            return const Center(child: Text('No data found.'));
-          }
-        },
+          });
+        }
       ),
     );
   }

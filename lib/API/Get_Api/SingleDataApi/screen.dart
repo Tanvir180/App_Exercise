@@ -13,6 +13,7 @@ class _ScreenSingleState extends State<ScreenSingle> {
   bool isReady = false;
 
   Model singlePostWithModel = Model();
+
   _getSinglePost() {
     isReady = true;
     ApiServices().getSinglePostWithModel().then((value) {
@@ -57,6 +58,7 @@ class _ScreenSingleState extends State<ScreenSingle> {
                     style: const TextStyle(fontSize: 15),
                   )
                 ],
-              ));
+              )
+    );
   }
 }

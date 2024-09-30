@@ -24,7 +24,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 accountName: Text("Tanvir Ahammed"),
                 accountEmail: Text("tanvir65@gmail.com.com"),
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('assets/download.png'), // Replace with your image asset
+                  backgroundImage: AssetImage('assets/download.png'),
                 ),
                 decoration: BoxDecoration(
                   color: Colors.teal,
@@ -54,7 +54,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 leading: const Icon(Icons.settings),
                 title: const Text("BookMark"),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const BookMarkList()
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  BookMarkList()
                     ,));
                   // Navigate to Settings
                 },

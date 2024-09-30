@@ -1,21 +1,37 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:state_management/API/Get_Api/MultipleDataAPI/modelm.dart';
 
 class ApiServices {
+  // Future<List<PostModel>?> getPostWithModel() async {
+  //   try {
+  //     var response = await http
+  //         .get(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
+  //     if (response.statusCode == 200) {
+  //       List<PostModel> model = List<PostModel>.from(
+  //           json.decode(response.body).map((x) => PostModel.fromJson(x)));
+  //       return model;
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  //
+  //   return null;
+  // }
+
   Future<List<PostModel>?> getPostWithModel() async {
+    var dio = Dio();
     try {
-      var response = await http
-          .get(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
+      var response = await dio.get('https://jsonplaceholder.typicode.com/posts');
       if (response.statusCode == 200) {
-        List<PostModel> model = List<PostModel>.from(
-            json.decode(response.body).map((x) => PostModel.fromJson(x)));
-        return model;
-      }
+              List<PostModel> model = List<PostModel>.from(
+                 response.data.map((x) => PostModel.fromJson(x)));
+              return model;
+            }
     } catch (e) {
       print(e.toString());
     }
-
     return null;
   }
 
